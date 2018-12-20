@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { parseUrl } from '@/util'
+import { parseUrl, waitResource } from '@/util'
 export default {
   data: () => ({
     domainNow: '',
@@ -80,11 +80,12 @@ export default {
   methods: {
     async init () {
       // 加载脚本
-      if (!window.domainUtil) {
+      try {
+        await waitResource(() => window.domainUtil)
+        this.domains = await window.domainUtil.list()
+      } catch (err) {
         this.showSnackbar('你还没有安装脚本，请先去 [https://greasyfork.org/] 安装脚本')
-        return
       }
-      this.domains = await window.domainUtil.list()
     },
     add () {
       try {
