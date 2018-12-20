@@ -1,5 +1,5 @@
 import Welcome from '@/components/Welcome'
-import MobileAutoFullScreen from '@/components/MobileAutoFullScreen'
+import MobileFullScreen from '@/components/MobileFullScreen'
 
 export default [
   {
@@ -8,8 +8,8 @@ export default [
     component: Welcome
   },
   {
-    path: '/MobileAutoFullScreen',
-    name: 'MobileAutoFullScreen',
-    component: MobileAutoFullScreen
+    path: '/MobileFullScreen',
+    name: 'MobileFullScreen',
+    component: MobileFullScreen
   }
 ]

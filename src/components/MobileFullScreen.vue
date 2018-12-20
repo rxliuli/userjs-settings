@@ -68,27 +68,23 @@ export default {
   watch: {
     domains: {
       async handler () {
-        await this.domainUtil.set(this.domains)
+        if (!window.domainUtil) {
+          this.showSnackbar('你还没有安装脚本，请先去 [https://greasyfork.org/] 安装脚本')
+          return
+        }
+        await window.domainUtil.set(this.domains)
       },
       deep: true
     }
   },
   methods: {
     async init () {
-      // 检测脚本
+      // 加载脚本
       if (!window.domainUtil) {
         this.showSnackbar('你还没有安装脚本，请先去 [https://greasyfork.org/] 安装脚本')
-        this.domainUtil.list = () => {
-          this.showSnackbar('你还没有安装脚本，请先去 [https://greasyfork.org/] 安装脚本')
-        }
-        this.domainUtil.set = () => {
-          this.showSnackbar('你还没有安装脚本，请先去 [https://greasyfork.org/] 安装脚本')
-        }
-      } else {
-        this.domainUtil = await window.domainUtil.list()
+        return
       }
-      // 加载脚本
-      this.domains = this.domainUtil.list()
+      this.domains = await window.domainUtil.list()
     },
     add () {
       try {
@@ -118,7 +114,9 @@ export default {
     }
   },
   mounted () {
-    this.init()
+    setTimeout(() => {
+      this.init()
+    }, 1000)
   }
 }
 </script>
