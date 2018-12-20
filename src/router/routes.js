@@ -1,9 +1,15 @@
-import HelloWorld from '@/components/HelloWorld'
+import Welcome from '@/components/Welcome'
+import MobileAutoFullScreen from '@/components/MobileAutoFullScreen'
 
 export default [
   {
     path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld
+    name: 'Welcome',
+    component: Welcome
+  },
+  {
+    path: '/MobileAutoFullScreen',
+    name: 'MobileAutoFullScreen',
+    component: MobileAutoFullScreen
   }
 ]

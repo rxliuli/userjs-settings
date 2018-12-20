@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <!-- 导航栏 -->
     <v-navigation-drawer
       persistent
       v-model="drawer"
@@ -7,24 +8,37 @@
       fixed
       app
     >
-      <v-list>
+      <v-toolbar flat>
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-title class="title">
+              user.js 脚本设置
+            </v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
+
+      <v-divider></v-divider>
+
+      <v-list
+        dense
+        class="pt-0"
+      >
         <v-list-tile
-          value="true"
-          v-for="(item, i) in items"
-          :key="i"
+          v-for="item in items"
+          :key="item.title"
+          @click="toggle(item.path)"
         >
-          <v-list-tile-action>
-            <v-icon v-html="item.icon"></v-icon>
-          </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title v-text="item.title"></v-list-tile-title>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
+    <!-- 工具栏 -->
     <v-toolbar app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-toolbar-title v-text="titleNow"></v-toolbar-title>
     </v-toolbar>
     <v-content>
       <router-view />
@@ -46,17 +60,26 @@ export default {
     return {
       drawer: true,
       items: [],
-      title: 'Vuetify.js'
+      titleNow: ''
     }
   },
   methods: {
     init () {
-      console.log(routes)
-      window.routes = routes
+      this.items = routes.map(route => ({
+        title: route.name,
+        icon: 'route',
+        path: route.path
+      }))
+    },
+    toggle (path) {
+      this.$router.push(path)
     }
   },
   mounted () {
     this.init()
+  },
+  beforeUpdate () {
+    this.titleNow = this.$route.name
   },
   name: 'App'
 }
